@@ -223,7 +223,7 @@ public class GoogleGrouperConnector {
             try {
                 user = GoogleAppsSdkUtils.retrieveUser(directoryClient, userKey);
             } catch (IOException e) {
-                LOG.warn("Google Apps Consume '{}' - Error fetching user ({}) from Google: {}", new Object[]{consumerName, userKey, e.getMessage()});
+                LOG.warn("Google Apps Consumer '{}' - Error fetching user ({}) from Google: {}", new Object[]{consumerName, userKey, e.getMessage()});
             }
 
             if (user != null) {
