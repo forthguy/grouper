@@ -20,6 +20,8 @@ import org.apache.commons.jexl2.JexlContext;
 import org.apache.commons.jexl2.JexlEngine;
 import org.apache.commons.jexl2.MapContext;
 import org.apache.commons.jexl2.UnifiedJEXL;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Formats user and group addresses. Supports JEXL manipulations/evaluations
@@ -27,6 +29,8 @@ import org.apache.commons.jexl2.UnifiedJEXL;
  * @author John Gasper, Unicon
  */
 public class AddressFormatter {
+    private static final Logger LOG = LoggerFactory.getLogger(AddressFormatter.class);
+
     private final JexlEngine jexl = new JexlEngine();
     private final UnifiedJEXL ujexl = new UnifiedJEXL(jexl);
     private UnifiedJEXL.Expression groupIdentifierExp = null;
@@ -41,15 +45,21 @@ public class AddressFormatter {
         String address = subject.getId();
         try {
             address = subjectIdentifierExp.evaluate(context).toString();
+            LOG.trace("Google Apps Consumer - Address for subject {} resolved to {}", subject.getId(), address);
         } catch(Exception ex) {
-
+            LOG.warn("Google Apps Consumer - Exception when qualifying subject address for {}.", subject.getId(), ex);
         }
 
         if (!address.contains("@")) {
+            LOG.debug("Google Apps Consumer - Added domain to subject {} with bare address of {}.", subject.getId(), address);
             address = String.format("%s@%s", address, this.domain);
         }
 
-        return address.replace(":", "-");
+        address = address.replace(":", "-");
+
+        LOG.debug("Google Apps Consumer - Final subject address for subject {} set to {}", subject.getId(), address);
+
+        return address;
     }
 
     public String qualifyGroupAddress(String group) {
