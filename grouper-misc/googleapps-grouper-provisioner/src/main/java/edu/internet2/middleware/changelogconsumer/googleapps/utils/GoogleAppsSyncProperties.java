@@ -38,7 +38,7 @@ public class GoogleAppsSyncProperties {
 
     private String groupIdentifierExpression;
     private String subjectIdentifierExpression;
-    private boolean useSubjectIdAsMemberIfExpressionIsNull;
+    private boolean createMemberIfSubjectIdentifierExpressionIsNull;
 
     /** how long should the Google caches be valid */
     private int googleUserCacheValidity;
@@ -131,9 +131,9 @@ public class GoogleAppsSyncProperties {
                 GrouperLoaderConfig.retrieveConfig().propertyValueStringRequired(qualifiedParameterNamespace + "subjectIdentifierExpression");
         LOG.debug("Google Apps Consumer - Setting subjectIdentifierExpression to {}", subjectIdentifierExpression);
 
-        useSubjectIdAsMemberIfExpressionIsNull =
-                GrouperLoaderConfig.retrieveConfig().propertyValueBoolean(qualifiedParameterNamespace + "useSubjectIdAsMemberIfExpressionIsNull", true);
-        LOG.debug("Google Apps Consumer - Setting useSubjectIdAsMemberIfExpressionIsNull to {}", useSubjectIdAsMemberIfExpressionIsNull);
+        createMemberIfSubjectIdentifierExpressionIsNull =
+                GrouperLoaderConfig.retrieveConfig().propertyValueBoolean(qualifiedParameterNamespace + "createMemberIfSubjectIdentifierExpressionIsNull", true);
+        LOG.debug("Google Apps Consumer - Setting createMemberIfSubjectIdentifierExpressionIsNull to {}", createMemberIfSubjectIdentifierExpressionIsNull);
 
         provisionUsers =
                 GrouperLoaderConfig.retrieveConfig().propertyValueBoolean(qualifiedParameterNamespace + "provisionUsers", false);
@@ -196,7 +196,6 @@ public class GoogleAppsSyncProperties {
         useGroupSettings =
                 GrouperLoaderConfig.retrieveConfig().propertyValueBoolean(qualifiedParameterNamespace + "useGroupSettings", true);
         LOG.debug("Google Apps Consumer - Setting useGroupSettings to {}", useGroupSettings);
-
 
         defaultGroupSettings.setWhoCanJoin(
                 GrouperLoaderConfig.retrieveConfig().propertyValueString(qualifiedParameterNamespace + "whoCanJoin", "CAN_REQUEST_TO_JOIN"));
