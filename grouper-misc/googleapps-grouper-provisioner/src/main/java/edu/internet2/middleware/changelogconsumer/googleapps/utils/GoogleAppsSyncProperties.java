@@ -381,6 +381,10 @@ public class GoogleAppsSyncProperties {
         return groupIdentifierExpression;
     }
 
+    public boolean getCreateMemberIfSubjectIdentifierExpressionIsNull() {
+        return createMemberIfSubjectIdentifierExpressionIsNull;
+    }
+
     public String getGoogleDomain() {
         return googleDomain;
     }
