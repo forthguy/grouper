@@ -151,6 +151,7 @@ public class GoogleAppsChangeLogConsumer extends ChangeLogConsumerBase {
     private String consumerName;
     private AttributeDefName syncAttribute;
     private GoogleGrouperConnector connector;
+    private GoogleAppsSyncProperties properties;
 
 
     public GoogleAppsChangeLogConsumer() {
@@ -175,7 +176,7 @@ public class GoogleAppsChangeLogConsumer extends ChangeLogConsumerBase {
             LOG.trace("Google Apps Consumer '{}' - Setting name.", consumerName);
         }
 
-        GoogleAppsSyncProperties properties = new GoogleAppsSyncProperties(consumerName);
+        properties = new GoogleAppsSyncProperties(consumerName);
 
         try {
             connector.initialize(consumerName, properties);
@@ -608,7 +609,11 @@ public class GoogleAppsChangeLogConsumer extends ChangeLogConsumerBase {
             //For nested groups, ChangeLogEvents fire when the group is added, and also for each indirect user added,
             //so we only need to handle PERSON events.
             if (subjectType == SubjectTypeEnum.PERSON) {
-                User user = connector.fetchGooUser(connector.getAddressFormatter().qualifySubjectAddress(lookupSubject));
+                String gooUser = connector.getAddressFormatter().qualifySubjectAddress(lookupSubject);
+                if (gooUser == null && !properties.getCreateMemberIfSubjectIdentifierExpressionIsNull()) {
+                    return;
+                }
+                User user = connector.fetchGooUser(gooUser);
                 if (user == null) {
                     user = connector.createGooUser(lookupSubject);
                 }

@@ -373,6 +373,9 @@ public class GoogleGrouperConnector {
                     continue;
                 }
                 String userKey = addressFormatter.qualifySubjectAddress(subject);
+                if (userKey == null && !properties.getCreateMemberIfSubjectIdentifierExpressionIsNull()) {
+                    continue;
+                }
                 User user = fetchGooUser(userKey);
 
                 if (user == null) {
@@ -595,6 +598,12 @@ public class GoogleGrouperConnector {
         final String groupKey = addressFormatter.qualifyGroupAddress(groupName);
         final String userKey = addressFormatter.qualifySubjectAddress(subject);
 
+        // If we're not creating default group members, we probably don't want to delete accounts that
+        // might not actually be something we're responsible for.
+        if (userKey == null && !properties.getCreateMemberIfSubjectIdentifierExpressionIsNull()) {
+            return;
+        }
+
         recentlyManipulatedObjectsList.delayIfNeeded(userKey);
         GoogleAppsSdkUtils.removeGroupMember(directoryClient, groupKey, userKey);
         recentlyManipulatedObjectsList.add(userKey);
@@ -639,6 +648,10 @@ public class GoogleGrouperConnector {
     public void createGooMember(edu.internet2.middleware.grouper.Group group, Subject subject, String role) throws IOException {
         User user = fetchGooUser(addressFormatter.qualifySubjectAddress(subject));
 
+        if (user == null && !properties.getCreateMemberIfSubjectIdentifierExpressionIsNull()) {
+            return;
+        }
+
         if (user == null) {
             user = createGooUser(subject);
         }
@@ -651,6 +664,10 @@ public class GoogleGrouperConnector {
 
     public void updateGooMember(edu.internet2.middleware.grouper.Group group, Subject subject, String role) throws IOException {
         User user = fetchGooUser(addressFormatter.qualifySubjectAddress(subject));
+
+        if (user == null && !properties.getCreateMemberIfSubjectIdentifierExpressionIsNull()) {
+            return;
+        }
 
         if (user == null) {
             user = createGooUser(subject);
