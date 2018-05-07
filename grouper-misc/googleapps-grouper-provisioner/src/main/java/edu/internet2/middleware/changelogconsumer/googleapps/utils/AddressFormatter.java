@@ -49,6 +49,10 @@ public class AddressFormatter {
             LOG.trace("Google Apps Consumer - Address for subject {} resolved to {}", subject.getId(), address);
         } catch(Exception ex) {
             LOG.warn("Google Apps Consumer - Exception when qualifying subject address for {}.", subject.getId(), ex);
+
+            if (!createMemberIfSubjectIdentifierExpressionIsNull) {
+                return null;
+            }
         }
 
         if (!address.contains("@")) {
