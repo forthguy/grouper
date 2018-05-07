@@ -144,7 +144,8 @@ public class GoogleGrouperConnector {
 
         addressFormatter.setGroupIdentifierExpression(properties.getGroupIdentifierExpression())
                 .setSubjectIdentifierExpression(properties.getSubjectIdentifierExpression())
-                .setDomain(properties.getGoogleDomain());
+                .setDomain(properties.getGoogleDomain())
+                .setCreateMemberIfSubjectIdentifierExpressionIsNull(properties.getCreateMemberIfSubjectIdentifierExpressionIsNull());
 
         GoogleCacheManager.googleUsers().setCacheValidity(properties.getGoogleUserCacheValidity());
         GoogleCacheManager.googleGroups().setCacheValidity(properties.getGoogleGroupCacheValidity());

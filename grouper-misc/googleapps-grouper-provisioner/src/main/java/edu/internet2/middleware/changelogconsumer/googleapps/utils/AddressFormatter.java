@@ -36,6 +36,7 @@ public class AddressFormatter {
     private UnifiedJEXL.Expression groupIdentifierExp = null;
     private UnifiedJEXL.Expression subjectIdentifierExp = null;
     private String domain;
+    private boolean createMemberIfSubjectIdentifierExpressionIsNull = true;
 
     public String qualifySubjectAddress(final Subject subject) {
         final JexlContext context = new MapContext();
@@ -86,6 +87,12 @@ public class AddressFormatter {
 
     public AddressFormatter setDomain(String domain) {
         this.domain = domain;
+
+        return this;
+    }
+
+    public AddressFormatter setCreateMemberIfSubjectIdentifierExpressionIsNull(boolean createMemberIfSubjectIdentifierExpressionIsNull) {
+        this.createMemberIfSubjectIdentifierExpressionIsNull = createMemberIfSubjectIdentifierExpressionIsNull;
 
         return this;
     }
