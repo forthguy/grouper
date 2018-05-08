@@ -307,7 +307,7 @@ public class GoogleAppsSyncProperties {
         ignoreExtraGoogleMembers = GrouperLoaderConfig.retrieveConfig().propertyValueBoolean(qualifiedParameterNamespace + "ignoreExtraGoogleMembers", true);
         LOG.debug("Google Apps Consumer - Setting ignoreExtraGoogleMembers to {}", ignoreExtraGoogleMembers);
 
-        ignoreExtraGoogleGroups = GrouperLoaderConfig.retrieveConfig().propertyValueBoolean(qualifiedParameterNamespace + "ignoreExtraGoogleGroups", false);
+        ignoreExtraGoogleGroups = GrouperLoaderConfig.retrieveConfig().propertyValueBoolean(qualifiedParameterNamespace + "ignoreExtraGoogleGroups", true);
         LOG.debug("Google Apps Consumer - Setting ignoreExtraGoogleGroups to {}", ignoreExtraGoogleGroups);
 
         this.proxyHost = GrouperLoaderConfig.retrieveConfig().propertyValueString(qualifiedParameterNamespace + "proxyHost", null);
