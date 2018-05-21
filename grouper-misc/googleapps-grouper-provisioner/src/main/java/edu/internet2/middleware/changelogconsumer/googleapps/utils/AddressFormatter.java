@@ -48,7 +48,7 @@ public class AddressFormatter {
             address = subjectIdentifierExp.evaluate(context).toString();
             LOG.trace("Google Apps Consumer - Address for subject {} resolved to {}", subject.getId(), address);
         } catch(Exception ex) {
-            LOG.warn("Google Apps Consumer - Exception when qualifying subject address for {}.", subject.getId(), ex);
+            LOG.warn("Google Apps Consumer - Exception when qualifying subject address for {}.", subject.getId());
 
             if (!createMemberIfSubjectIdentifierExpressionIsNull) {
                 LOG.debug("Google Apps Consumer - Return null for subject '{}' because expression returned null or exception", subject.getId());
