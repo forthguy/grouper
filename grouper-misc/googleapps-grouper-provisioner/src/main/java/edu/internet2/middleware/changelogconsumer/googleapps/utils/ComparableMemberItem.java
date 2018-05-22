@@ -27,11 +27,11 @@ public class ComparableMemberItem {
     private Member grouperMember;
 
     public ComparableMemberItem(String email) {
-        this.email = email;
+        this.email = email.toLowerCase();
     }
 
     public ComparableMemberItem(String name, Member member) {
-        this.email = name;
+        this.email = name.toLowerCase();
         this.grouperMember = member;
     }
 
