@@ -233,7 +233,14 @@ public class GoogleAppsFullSync {
                     if (member.getSubjectType() == SubjectTypeEnum.PERSON) {
                       String role = connector.determineRole(member, item.getGrouperGroup());
                       if (role != null) {
-                        grouperMembers.add(new ComparableMemberItem(connector.getAddressFormatter().qualifySubjectAddress(member.getSubject()), member));
+                          String subjectAddress = connector.getAddressFormatter().qualifySubjectAddress(member.getSubject());
+
+                          // In the normal case, there's a bunch of code catching a null and doing something about it
+                          // to create the user in some other form.  That behavior doesn't exist here, but it still
+                          // seems like checking the property is the "right thing" to do.
+                          if (subjectAddress != null || (subjectAddress == null && properties.getCreateMemberIfSubjectIdentifierExpressionIsNull())) {
+                              grouperMembers.add(new ComparableMemberItem(subjectAddress));
+                          }
                       }
                     }
                 }
