@@ -239,7 +239,7 @@ public class GoogleAppsFullSync {
                           // to create the user in some other form.  That behavior doesn't exist here, but it still
                           // seems like checking the property is the "right thing" to do.
                           if (subjectAddress != null || (subjectAddress == null && properties.getCreateMemberIfSubjectIdentifierExpressionIsNull())) {
-                              grouperMembers.add(new ComparableMemberItem(subjectAddress));
+                              grouperMembers.add(new ComparableMemberItem(subjectAddress, member));
                           }
                       }
                     }
@@ -295,6 +295,7 @@ public class GoogleAppsFullSync {
         for (ComparableMemberItem member : missingMembers) {
             LOG.info("Google Apps Consume '{}' Full Sync - Creating missing user/member ({}) from extra group ({}).", new Object[]{consumerName, member.getEmail(), group.getName()});
             if (!dryRun) {
+
                 Subject subject = connector.fetchGrouperSubject(member.getGrouperMember().getSubjectSourceId(), member.getGrouperMember().getSubjectId());
                 if (subject == null) {
                     continue;

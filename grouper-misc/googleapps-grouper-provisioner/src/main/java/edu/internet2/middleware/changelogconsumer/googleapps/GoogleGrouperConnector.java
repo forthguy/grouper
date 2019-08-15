@@ -213,6 +213,13 @@ public class GoogleGrouperConnector {
     }
 
     public User fetchGooUser(String userKey) {
+
+        // If userKey comes in as null to fetchGooUser, we should have already qualified this user as a non-user
+        if (userKey == null) {
+            LOG.debug("Google Apps Consumer '{}' - null user in fetchGooUser; skipping actions on user.");
+            return null;
+        }
+
         User user = GoogleCacheManager.googleUsers().get(userKey);
         if (user == null) {
             if (!userKey.endsWith(properties.getGoogleDomain())) {
