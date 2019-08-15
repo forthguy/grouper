@@ -75,7 +75,7 @@ public class GoogleAppsFullSync {
             e.printStackTrace();
         }
 
-        System.exit(0);
+        return;
     }
 
     public static boolean isFullSyncRunning(String consumerName) {
